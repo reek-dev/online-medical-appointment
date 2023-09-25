@@ -1,0 +1,419 @@
+<div class="flex justify-center py-2">
+  <div
+    class="relative border border-gray-800 bg-white p-2 my-3 rounded-lg shadow-lg w-10/12 flex flex-col"
+  >
+    <fa-icon
+      [icon]="backIcon"
+      (click)="goBack()"
+      class="absolute inset-y-0 top-3 left-3 md:left-6 lg:left-6 md:text-2xl lg:text-2xl text-xl text-gray-400 hover:text-gray-600"
+    ></fa-icon>
+    <h2 class="text-center text-2xl text-gray-700 font-bold select-none">
+      Sign up as a doctor
+    </h2>
+    <p class="text-center text-sm my-2 text-gray-500 select-none">
+      Fields marked with <span class="text-red-500 font-semibold">*</span> are
+      required
+    </p>
+    <form
+      [formGroup]="doctorSignupForm"
+      (ngSubmit)="onDoctorSignupSubmit()"
+      spellcheck="false"
+    >
+      <!-- This will contain the entire form -->
+      <div class="flex flex-col md:flex-row m-2">
+        <div
+          class="w-[100%] md:w-1/2 lg:w-1/2 my-1 md:mx-1 select-none flex flex-col"
+        >
+          <!-- This is the div for taking the names -->
+          <div class="w-[100%] my-1">
+            <!-- FIRST NAME INPUT ------------------------------------------------------------------ -->
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label for="firstName" class="text-gray-600 font-bold select-none"
+                >First name
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                placeholder="Your first name here"
+                formControlName="firstName"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+
+              <div
+                *ngIf="(firstName.touched || firstName.dirty) && (firstName.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  First name cannot be empty
+                </p>
+              </div>
+            </div>
+
+            <!-- MIDDLE NAME INPUT ------------------------------------------------------------------ -->
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label
+                for="middleName"
+                class="text-gray-600 font-bold select-none"
+                >Middle name</label
+              >
+              <input
+                type="text"
+                id="middleName"
+                name="middleName"
+                placeholder="Your middle name here"
+                formControlName="middleName"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <!-- LAST NAME INPUT ------------------------------------------------------------------ -->
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label for="lastName" class="text-gray-600 font-bold select-none"
+                >Last name
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="Your last name here"
+                formControlName="lastName"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+
+              <div
+                *ngIf="(lastName.touched || lastName.dirty) && (lastName.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Last name cannot be empty
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-[100%] my-1">
+            <!-- LICENSE NO INPUT -->
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label for="licenseNo" class="text-gray-600 font-bold select-none"
+                >License no
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="text"
+                id="licenseNo"
+                name="licenseNo"
+                placeholder="Your license number here"
+                formControlName="licenseNo"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+              <div
+                *ngIf="(licenseNo.touched || licenseNo.dirty) && (licenseNo.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  License number cannot be empty
+                </p>
+              </div>
+            </div>
+
+            <div class="relative flex flex-col mb-4 mx-1">
+              <p class="text-gray-600 font-bold select-none">Are you a</p>
+              <div class="flex flex-col justify-evenly">
+                <div class="">
+                  <input
+                    type="radio"
+                    name="is_generalist"
+                    id="generalist"
+                    value="true"
+                    (change)="generalistButton($event)"
+                    formControlName="is_generalist"
+                  />
+                  <label
+                    for="generalist"
+                    class="mx-2 text-gray-500 hover:text-gray-700"
+                    >Generalist</label
+                  >
+                </div>
+                <div class="">
+                  <input
+                    type="radio"
+                    name="is_generalist"
+                    id="specialist"
+                    value="false"
+                    (change)="generalistButton($event)"
+                    formControlName="is_generalist"
+                  />
+                  <label
+                    for="specialist"
+                    class="mx-2 text-gray-500 hover:text-gray-700"
+                    >Specialist</label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="flex flex-col my-2 mx-1"
+              *ngIf="is_generalist.value === 'false'"
+            >
+              <label
+                class="text-gray-600 font-bold select-none"
+                for="specialization"
+                >Select your specialization
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <select
+                name="specialization"
+                id="specialization"
+                formControlName="specialization"
+                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
+              >
+                <option
+                  *ngFor="let sp of specializations; let i = index"
+                  [value]="sp"
+                >
+                  {{ specializations[i] }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-[100%] md:w-1/2 lg:w-1/2 my-1 md:mx-1 select-none">
+          <div class="w-[100%] my-1">
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label for="phone" class="text-gray-600 font-bold select-none"
+                >Phone no
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="Your phone number here"
+                formControlName="phoneNo"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+
+              <div
+                *ngIf="(phoneNo.touched || phoneNo.dirty) && (phoneNo.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Phone number cannot be empty
+                </p>
+              </div>
+            </div>
+
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label for="email" class="text-gray-600 font-bold select-none"
+                >Email <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Your email address here"
+                formControlName="email"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+
+              <div
+                *ngIf="(email.touched || email.dirty) && (email.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Email cannot be empty
+                </p>
+              </div>
+
+              <div
+                *ngIf="(email.touched || email.dirty) && !(email.errors?.['required']) &&  (email.errors?.['email'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Please enter a valid email
+                </p>
+              </div>
+            </div>
+
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label for="password" class="text-gray-600 font-bold select-none"
+                >Password
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                formControlName="password"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+
+              <div
+                *ngIf="(password.touched || password.dirty) && (password.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Password cannot be empty
+                </p>
+              </div>
+
+              <div
+                *ngIf="(password.touched || password.dirty) && !(password.errors?.['required']) && (password.errors?.['minlength'] || password.errors?.['maxlength'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Password must be between 8-32 characters
+                </p>
+              </div>
+            </div>
+
+            <div class="relative flex flex-col mb-4 mx-1">
+              <label
+                for="r-password"
+                class="text-gray-600 font-bold select-none"
+                >Repeat password
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="password"
+                id="r-password"
+                name="r-password"
+                formControlName="repeatPassword"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+
+              <div
+                *ngIf="(repeatPassword.touched || repeatPassword.dirty) && (repeatPassword.errors?.['required'])"
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  This field cannot be empty
+                </p>
+              </div>
+
+              <div
+                *ngIf="
+                  (repeatPassword.touched || repeatPassword.dirty) && !(repeatPassword.errors?.['required']) &&
+                  password.value !== repeatPassword.value
+                "
+                class="absolute inset-0 left-1 top-14"
+              >
+                <p class="text-red-400 font-semibold text-xs pt-[.2em]">
+                  Password do not match, yet
+                </p>
+              </div>
+            </div>
+
+            <div class="flex flex-col my-2 mx-1">
+              <p class="text-gray-600 font-bold select-none">
+                Gender <span class="text-red-500 font-semibold">*</span>
+              </p>
+              <div
+                class="flex flex-col md:flex-row lg:flex-row justify-between select-none"
+              >
+                <div class="flex flex-col justify-between w-full mx-2">
+                  <div class="my-1 flex">
+                    <input
+                      type="radio"
+                      id="male"
+                      name="gender"
+                      value="M"
+                      formControlName="gender"
+                      class="my-auto"
+                    />
+                    <label
+                      for="male"
+                      class="ml-2 my-auto text-gray-500 hover:text-gray-700"
+                      >Male</label
+                    >
+                  </div>
+                  <div class="my-1 flex">
+                    <input
+                      type="radio"
+                      id="female"
+                      name="gender"
+                      value="F"
+                      formControlName="gender"
+                      class="my-auto"
+                    />
+                    <label
+                      for="female"
+                      class="ml-2 my-auto text-gray-500 hover:text-gray-700"
+                      >Female</label
+                    >
+                  </div>
+                </div>
+                <div class="flex flex-col justify-between w-full mx-2">
+                  <div class="my-1 flex">
+                    <input
+                      type="radio"
+                      id="others"
+                      name="gender"
+                      value="O"
+                      formControlName="gender"
+                      class="my-auto"
+                    />
+                    <label
+                      for="others"
+                      class="ml-2 my-auto text-gray-500 hover:text-gray-700"
+                      >Others</label
+                    >
+                  </div>
+                  <div class="my-1 flex">
+                    <input
+                      type="radio"
+                      id="na"
+                      name="gender"
+                      value="N/A"
+                      formControlName="gender"
+                      class="my-auto"
+                    />
+                    <label
+                      for="na"
+                      class="ml-2 my-auto text-gray-500 hover:text-gray-700"
+                      >Prefer not to disclose</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col my-2 mx-1">
+              <label for="dob" class="text-gray-600 font-bold select-none"
+                >Date of Birth
+                <span class="text-red-500 font-semibold">*</span></label
+              >
+              <input
+                type="date"
+                id="dob"
+                name="dob"
+                formControlName="dob"
+                [max]="todaysDate"
+                class="w-full p-1 border border-gray-300 rounded-md hover:border-gray-400 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-2 py-2 flex justify-center">
+        <button
+          *ngIf="
+            doctorSignupForm.valid &&
+            ((is_generalist.value === 'true' && specialization.value === '') ||
+              (is_generalist.value === 'false' && specialization.value !== ''))
+          "
+          type="submit"
+          class="bg-blue-400 w-24 px-6 py-1 rounded text-gray-100 font-normal hover:bg-blue-500 hover:text-white"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
